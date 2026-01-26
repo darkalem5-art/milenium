@@ -3,27 +3,21 @@ export async function onRequest(context) {
   const url = new URL(request.url);
   const userAgent = (request.headers.get('user-agent') || '').toLowerCase();
 
-  // Sadece ana sayfa
+  // SADECE ANA SAYFA
   if (url.pathname !== '/' && url.pathname !== '/index.html') {
     return context.next();
   }
 
-  // Googlebot kontrolü (SEO bozulmasın)
+  // GOOGLEBOT KONTROLÜ (KESİN!)
   const isGooglebot = /googlebot|mediapartners-google|adsbot-google|google-inspectiontool/i.test(userAgent);
+
+  // GOOGLEBOT İSE → index.html göster (SEO için)
   if (isGooglebot) {
     console.log('Googlebot detected – serving index.html');
     return context.next();
   }
 
-  // Cloudflare ülke bilgisi
-  const country = request.cf?.country;
-
-  // Türkiye'den gelenler → xx.com
-  if (country === 'TR') {
-    console.log('Turkey visitor – redirecting to xx.com');
-    return Response.redirect('https://casibom8957.com', 302);
-  }
-
-  // Diğer ülkeler → normal akış
-  return context.next();
-}
+  // NORMAL KULLANICILAR → tr.html'e yönlendir
+  console.log('Normal user – redirecting to tr.html');
+  return Response.redirect(`${url.origin}/tr.html`, 302);
+} bunu nasıl turkeyden olanları tr.html yönlendirme yaparım cf pages kullanıyorum
