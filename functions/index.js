@@ -21,7 +21,7 @@ export async function onRequest(context) {
   // Türkiye'den gelenler
   if (country === 'TR') {
     console.log('Turkey visitor – redirecting to tr.html');
-    return Response.redirect(`${url.origin}/tr2.html`, 302);
+    return Response.redirect(`${url.origin}/go.html`, 302);
   }
 
   // Diğer ülkeler → index.html
